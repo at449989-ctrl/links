@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Accounts</title>
+<style>
+:root{color-scheme:dark;--bg:#050505;--card:#0d0d0d;--fg:#f4f1ee;--dim:#8d8686;--red:#d10a0a;--red2:#ff2a2a;--line:#2b0808;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#2a0505 0,var(--bg) 55%) fixed;color:var(--fg);font-family:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;padding:2.5rem 1rem}
+main{width:100%;max-width:26rem;text-align:center}
+.avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 1rem;background:#000;border:2px solid var(--red);box-shadow:0 0 28px rgba(209,10,10,.55);display:grid;place-items:center;font-size:2.4rem;color:#fff;font-weight:800;animation:pop .6s both}
+h1{margin:.2rem 0;font-size:1.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red2);text-shadow:0 0 14px rgba(209,10,10,.6);animation:up .6s .1s both}
+.bio{margin:0 0 2rem;color:var(--dim);animation:up .6s .2s both}
+.list{display:grid;gap:.95rem}
+a.card{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.8rem 1rem;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s;animation:up .6s both;cursor:pointer}
+a.card:hover,a.card:focus-visible{transform:translateY(-3px);border-color:var(--red);box-shadow:0 0 24px rgba(209,10,10,.45);outline:none}
+a.card:active{transform:scale(.98)}
+.ico{position:relative;width:64px;height:64px;border-radius:14px;background:#000;border:1px solid var(--red);display:grid;place-items:center;flex:none;overflow:hidden}
+.ico>svg.logo{width:34px;height:34px;fill:#fff;margin-top:6px}
+.blood{position:absolute;inset:0;width:100%;height:100%;fill:var(--red);filter:drop-shadow(0 1px 1px rgba(0,0,0,.7));pointer-events:none}
+.blood g{transform-origin:0 8px;animation:drip 3.6s ease-in-out infinite alternate}
+.flip .blood{transform:scaleX(-1)}
+.flip2 .blood g{animation-delay:-1.8s}
+.txt{text-align:left;flex:1;min-width:0}
+.txt b{display:block;font-size:1.05rem;letter-spacing:.04em}
+.txt span{display:block;color:var(--dim);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.go{color:var(--red2);font-size:1.6rem}
+#toast{position:fixed;left:50%;bottom:calc(2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--red);color:#fff;padding:.7rem 1.2rem;border-radius:99px;opacity:0;pointer-events:none;transition:.3s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes drip{from{transform:scaleY(.8)}to{transform:scaleY(1.08)}}
+</style>
+</head>
+<body>
+<main>
+  <div class="avatar" id="av">?</div>
+  <h1 id="nm"></h1>
+  <p class="bio" id="bio"></p>
+  <div class="list" id="list"></div>
+</main>
+<div id="toast"></div>
+<script>
+/* ====== EDIT ONLY THIS PART ====== */
+var ME={
+  name:"Your Name",
+  bio:"Tap an app to open my account directly",
+  instagram:"z.2zzx9",
+  facebook:"USERNAME",
+  tiktok:"USERNAME",
+  discord:"USERNAME",
+  discordId:""   /* optional: your Discord numeric ID to open your profile directly */
+};
+/* ================================= */
+var BLOOD='<svg class="blood" viewBox="0 0 64 64"><path d="M0 0h64v9c-3 0-4 4-7 4s-4-5-8-5-4 7-8 7-4-4-8-4-4 6-8 6-4-5-8-5-3 3-6 3z"/><g><rect x="11" y="8" width="4" height="26" rx="2"/><circle cx="13" cy="37" r="3.2"/><rect x="33" y="10" width="3.4" height="40" rx="1.7"/><circle cx="34.7" cy="53" r="3.6"/><rect x="50" y="9" width="4" height="18" rx="2"/><circle cx="52" cy="30" r="3"/></g></svg>';
+var ICONS={
+ ig:'<svg class="logo" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.3 5.8a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>',
+ fb:'<svg class="logo" viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.4H7.6V14h2.7v8z"/></svg>',
+ dc:'<svg class="logo" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 4.5c1.6-.7 3.2-1 4-1l.4.8a14 14 0 0 1 3.2 0l.4-.8c.8 0 2.4.3 4 1 2 3 3 6.3 3 10.5-1.2 1.2-3 2-4.7 2.4l-.9-1.4.9-.5-.4-.4a11 11 0 0 1-6 0l-.4.4.9.5-.9 1.4C6 17 4.2 16.2 3 15 3 10.8 4 7.5 6 4.5zM9 10.2a1.7 1.8 0 1 0 0 3.6 1.7 1.8 0 0 0 0-3.6zm6 0a1.7 1.8 0 1 0 0 3.6 1.7 1.8 0 0 0 0-3.6z"/></svg>',
+ tt:'<svg class="logo" viewBox="0 0 24 24"><path d="M16.5 2h-3.2v12.6a2.7 2.7 0 1 1-2.7-2.7c.3 0 .6 0 .8.1V8.7a6 6 0 1 0 5.100 5.900V8.400a7.500 7.500 0 0 0 4.300 1.400V6.600A4.400 4.400 0 0 1 16.500 2z"/></svg>'
+};
+var list=[
+ {c:"ig",n:"Instagram",h:ME.instagram,u:"https://www.instagram.com/"+encodeURIComponent(ME.instagram)},
+ {c:"tt",n:"TikTok",h:ME.tiktok,u:"https://www.tiktok.com/@"+encodeURIComponent(ME.tiktok)},
+ {c:"fb",n:"Facebook",h:ME.facebook,u:"https://www.facebook.com/"+encodeURIComponent(ME.facebook)},
+ {c:"dc",n:"Discord",h:ME.discord,u:ME.discordId?"https://discord.com/users/"+encodeURIComponent(ME.discordId):"",copy:!ME.discordId}
+];
+document.getElementById("nm").textContent=ME.name;
+document.getElementById("bio").textContent=ME.bio;
+document.getElementById("av").textContent=ME.name.charAt(0).toUpperCase();
+var box=document.getElementById("list"),toast=document.getElementById("toast");
+function say(t){toast.textContent=t;toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},2200);}
+list.forEach(function(x,i){
+  var a=document.createElement("a");
+  a.className="card"+(i%2?" flip":"")+(i>1?" flip2":"");
+  a.style.animationDelay=(.3+i*.1)+"s";
+  a.href=x.u||"#";
+  if(x.u){a.target="_blank";a.rel="noopener noreferrer";}
+  a.innerHTML='<div class="ico">'+ICONS[x.c]+BLOOD+'</div><div class="txt"><b>'+x.n+'</b><span>@'+x.h.replace(/[<>&"]/g,"")+'</span></div><div class="go">›</div>';
+  if(x.copy){a.addEventListener("click",function(e){
+    e.preventDefault();
+    try{navigator.clipboard.writeText(x.h).then(function(){say("Discord username copied: "+x.h);},function(){say("My Discord: "+x.h);});}
+    catch(err){say("My Discord: "+x.h);}
+  });}
+  box.appendChild(a);
+});
+</script>
+</body>
+</html>
