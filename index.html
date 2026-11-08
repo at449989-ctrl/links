@@ -19,8 +19,8 @@ h1{margin:.2rem 0;font-size:1.7rem;letter-spacing:.12em;text-transform:uppercase
 a.card{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.8rem 1rem;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s;animation:up .6s both;cursor:pointer}
 a.card:hover,a.card:focus-visible{transform:translateY(-3px);border-color:var(--red);box-shadow:0 0 24px rgba(209,10,10,.45);outline:none}
 a.card:active{transform:scale(.98)}
-.ico{position:relative;width:64px;height:64px;border-radius:14px;background:#000;border:1px solid var(--red);display:grid;place-items:center;flex:none;overflow:hidden}
-.ico>svg.logo{width:34px;height:34px;fill:#fff;margin-top:6px}
+.ico{position:relative;width:64px;height:64px;border-radius:14px;background:#f4f1ee;border:1px solid var(--red);display:grid;place-items:center;flex:none;overflow:hidden}
+.ico>svg.logo{width:34px;height:34px;fill:#000;margin-top:6px}
 .blood{position:absolute;inset:0;width:100%;height:100%;fill:var(--red);filter:drop-shadow(0 1px 1px rgba(0,0,0,.7));pointer-events:none}
 .blood g{transform-origin:0 8px;animation:drip 3.6s ease-in-out infinite alternate}
 .flip .blood{transform:scaleX(-1)}
@@ -34,11 +34,15 @@ a.card:active{transform:scale(.98)}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @keyframes drip{from{transform:scaleY(.8)}to{transform:scaleY(1.08)}}
+  .music{margin-top:1.5rem;background:#000;color:#fff;border:1px solid var(--red);border-radius:99px;padding:.8rem 1.6rem;font:inherit;cursor:pointer;transition:.2s}
+.music:hover{box-shadow:0 0 22px rgba(209,10,10,.6)}
 </style>
 </head>
 <body>
 <main>
   <div class="avatar" id="av">?</div>
+  <button id="music" class="music">▶ Play my song</button>
+<audio id="aud" src="song.mp3" loop preload="none"></audio>
   <h1 id="nm"></h1>
   <p class="bio" id="bio"></p>
   <div class="list" id="list"></div>
@@ -92,6 +96,11 @@ list.forEach(function(x,i){
     catch(err){say("My Discord: "+x.h);}
   });}
   box.appendChild(a);
+});
+  var aud=document.getElementById("aud"),mb=document.getElementById("music");
+mb.addEventListener("click",function(){
+  if(aud.paused){aud.play().then(function(){mb.textContent="❚❚ Pause";}).catch(function(){say("Cannot play the song");});}
+  else{aud.pause();mb.textContent="▶ Play my song";}
 });
 </script>
 </body>
