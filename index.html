@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>My Accounts</title>
 <style>
+  .avatar{overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
 :root{color-scheme:dark;--bg:#050505;--card:#0d0d0d;--fg:#f4f1ee;--dim:#8d8686;--red:#d10a0a;--red2:#ff2a2a;--line:#2b0808;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -70,7 +72,12 @@ var list=[
 ];
 document.getElementById("nm").textContent=ME.name;
 document.getElementById("bio").textContent=ME.bio;
-document.getElementById("av").textContent=ME.name.charAt(0).toUpperCase();
+var av=document.getElementById("av");
+av.textContent=ME.name.charAt(0).toUpperCase();
+var PHOTO="profile.jpg";
+var im=new Image();im.alt="";
+im.onload=function(){av.textContent="";av.appendChild(im);};
+im.src=PHOTO;
 var box=document.getElementById("list"),toast=document.getElementById("toast");
 function say(t){toast.textContent=t;toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},2200);}
 list.forEach(function(x,i){
