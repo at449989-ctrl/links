@@ -104,7 +104,6 @@ function arm(){evs.forEach(function(e){addEventListener(e,go,{passive:true});});
 aud.play().catch(arm);
 aud.addEventListener("timeupdate",function(){if(aud.duration)fill.style.width=(aud.currentTime/aud.duration*100)+"%";});
 bar.addEventListener("click",function(e){var r=bar.getBoundingClientRect();if(aud.duration)aud.currentTime=(e.clientX-r.left)/r.width*aud.duration;});
-});
 </script>
 </body>
 </html>
