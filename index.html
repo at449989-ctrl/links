@@ -5,31 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>My Accounts</title>
 <style>
-  .avatar{overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover}
 :root{color-scheme:dark;--bg:#050505;--card:#0d0d0d;--fg:#f4f1ee;--dim:#8d8686;--red:#d10a0a;--red2:#ff2a2a;--line:#2b0808;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#2a0505 0,var(--bg) 55%) fixed;color:var(--fg);font-family:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;padding:2.5rem 1rem}
-main{width:100%;max-width:26rem;text-align:center}
-.avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 1rem;background:#000;border:2px solid var(--red);box-shadow:0 0 28px rgba(209,10,10,.55);display:grid;place-items:center;font-size:2.4rem;color:#fff;font-weight:800;animation:pop .6s both}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 0,#2a0505 0,var(--bg) 55%) fixed;color:var(--fg);font-family:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;display:flex;justify-content:center;padding:3.5rem 1rem 2.5rem}
+main{position:relative;z-index:2;width:100%;max-width:26rem;text-align:center}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#glow{position:fixed;left:0;top:0;width:320px;height:320px;margin:-160px 0 0 -160px;background:radial-gradient(circle,rgba(209,10,10,.28),transparent 65%);z-index:1;pointer-events:none;display:none}
+.lang{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));inset-inline-start:12px;z-index:5;display:flex;gap:.3rem}
+.lang button{background:#000;color:var(--dim);border:1px solid var(--line);border-radius:8px;padding:.3rem .6rem;font:inherit;font-size:.8rem;cursor:pointer}
+.lang button.on{color:#fff;border-color:var(--red)}
+.eye{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));inset-inline-end:12px;z-index:5;width:44px;height:44px;border-radius:50%;background:#000;border:2px solid var(--red);box-shadow:0 0 16px rgba(209,10,10,.6);display:grid;place-items:center}
+.eye i{width:16px;height:16px;border-radius:50%;background:var(--red2);box-shadow:0 0 8px var(--red2)}
+.avatar{position:relative;overflow:hidden;width:96px;height:96px;border-radius:50%;margin:0 auto 1rem;background:#000;border:2px solid var(--red);box-shadow:0 0 28px rgba(209,10,10,.55);display:grid;place-items:center;font-size:2.4rem;color:#fff;font-weight:800;animation:pop .6s both}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+#avt{display:grid;place-items:center;width:100%;height:100%}
 h1{margin:.2rem 0;font-size:1.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red2);text-shadow:0 0 14px rgba(209,10,10,.6);animation:up .6s .1s both}
-.bio{margin:0 0 2rem;color:var(--dim);animation:up .6s .2s both}
+h1::after{content:"";display:block;margin:.2rem auto 0;width:55%;height:4px;background:repeating-linear-gradient(90deg,var(--red) 0 3px,transparent 3px 14px);border-radius:0 0 4px 4px;animation:dr 3s ease-in-out infinite alternate}
+@keyframes dr{to{height:16px}}
+h2{color:var(--red2);font-size:1rem;letter-spacing:.1em;text-transform:uppercase;margin:2.2rem 0 .8rem}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] .txt b{letter-spacing:0}
+.bio{margin:0 0 2rem;color:var(--dim);min-height:1.5em}
 .list{display:grid;gap:.95rem}
 a.card{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.8rem 1rem;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s;animation:up .6s both;cursor:pointer}
 a.card:hover,a.card:focus-visible{transform:translateY(-3px);border-color:var(--red);box-shadow:0 0 24px rgba(209,10,10,.45);outline:none}
-a.card:active{transform:scale(.98)}
 .ico{position:relative;width:64px;height:64px;border-radius:14px;background:#f4f1ee;border:1px solid var(--red);display:grid;place-items:center;flex:none;overflow:hidden}
 .ico>svg.logo{width:34px;height:34px;fill:#000;margin-top:6px}
 .blood{position:absolute;inset:0;width:100%;height:100%;fill:var(--red);filter:drop-shadow(0 1px 1px rgba(0,0,0,.7));pointer-events:none}
 .blood g{transform-origin:0 8px;animation:drip 3.6s ease-in-out infinite alternate}
 .flip .blood{transform:scaleX(-1)}
 .flip2 .blood g{animation-delay:-1.8s}
-.txt{text-align:left;flex:1;min-width:0}
-.txt b{display:block;font-size:1.05rem;letter-spacing:.04em}
+.txt{text-align:start;flex:1;min-width:0}
+.txt b{display:block;font-size:1.05rem}
 .txt span{display:block;color:var(--dim);font-size:.9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc span{direction:ltr;text-align:start}
+[dir=rtl] .acc span{text-align:right}
 .go{color:var(--red2);font-size:1.6rem}
-#toast{position:fixed;left:50%;bottom:calc(2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--red);color:#fff;padding:.7rem 1.2rem;border-radius:99px;opacity:0;pointer-events:none;transition:.3s}
+[dir=rtl] .go{transform:scaleX(-1)}
+.row{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem}
+.btn,button.b{background:#000;color:#fff;border:1px solid var(--red);border-radius:99px;padding:.7rem 1.3rem;font:inherit;text-decoration:none;cursor:pointer;transition:.2s}
+.btn:hover,button.b:hover{box-shadow:0 0 20px rgba(209,10,10,.6)}
+#qr{display:none;background:#fff;padding:12px;border-radius:12px;width:fit-content;margin:1.2rem auto 0}
+#qr.on{display:block}
+#toast{position:fixed;left:50%;bottom:calc(2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--red);color:#fff;padding:.7rem 1.2rem;border-radius:99px;opacity:0;pointer-events:none;transition:.3s;z-index:9}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
@@ -37,62 +55,128 @@ a.card:active{transform:scale(.98)}
 </style>
 </head>
 <body>
+<canvas id="fx"></canvas><div id="glow"></div>
+<div class="lang" id="lang"></div>
+<div class="eye" id="eye"><i id="pup"></i></div>
 <main>
-  <div class="avatar" id="av">?</div>
+  <div class="avatar" id="av"></div>
   <h1 id="nm"></h1>
   <p class="bio" id="bio"></p>
   <div class="list" id="list"></div>
+  <section id="contact"><h2 data-t="contactT"></h2><div class="row" id="contactL"></div></section>
+  <div class="row"><button class="b" id="cp"></button><button class="b" id="qrb"></button></div>
+  <div id="qr"></div>
 </main>
 <div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* ====== EDIT ONLY THIS PART ====== */
 var ME={
-  name:"Zaher",
-  bio:"Tap an app to open my account directly",
-  instagram:"z.2zzx9",
-  facebook:"USERNAME",
-  tiktok:"zaher7531",
-  discord:"uwf7",
-  discordId:"1427974516780568610"   /* optional: your Discord numeric ID to open your profile directly */
+  name:"Your Name",
+  instagram:"USERNAME",
+  tiktok:"USERNAME",
+  discord:"USERNAME",
+  discordId:"",
+  email:"",       /* example: me@mail.com */
+  whatsapp:"",    /* digits only with country code, example: 21612345678 */
+  photo:"profile.jpg"
 };
-  ["instagram","facebook","tiktok","discord"].forEach(function(k){ME[k]=String(ME[k]).trim().replace(/^https?:\/\/[^\/]+\/@?/,"").replace(/^@/,"").replace(/\/+$/,"");});
 /* ================================= */
+["instagram","tiktok","discord"].forEach(function(k){ME[k]=String(ME[k]).trim().replace(/^https?:\/\/[^\/]+\/@?/,"").replace(/^@/,"").replace(/\/+$/,"");});
+var T={
+ en:{bio:"Tap an app to open my account directly",contactT:"Contact",cp:"Copy link",cpd:"Link copied",qr:"QR code",dc:"Discord username copied: "},
+ ar:{bio:"اضغط على أي تطبيق لتصل إلى حسابي مباشرة",contactT:"تواصل",cp:"نسخ الرابط",cpd:"تم نسخ الرابط",qr:"رمز QR",dc:"تم نسخ اسم ديسكورد: "},
+ fr:{bio:"Touche une appli pour ouvrir mon compte directement",contactT:"Contact",cp:"Copier le lien",cpd:"Lien copié",qr:"Code QR",dc:"Pseudo Discord copié : "}
+};
 var BLOOD='<svg class="blood" viewBox="0 0 64 64"><path d="M0 0h64v9c-3 0-4 4-7 4s-4-5-8-5-4 7-8 7-4-4-8-4-4 6-8 6-4-5-8-5-3 3-6 3z"/><g><rect x="11" y="8" width="4" height="26" rx="2"/><circle cx="13" cy="37" r="3.2"/><rect x="33" y="10" width="3.4" height="40" rx="1.7"/><circle cx="34.7" cy="53" r="3.6"/><rect x="50" y="9" width="4" height="18" rx="2"/><circle cx="52" cy="30" r="3"/></g></svg>';
 var ICONS={
  ig:'<svg class="logo" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.3 5.8a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg>',
- fb:'<svg class="logo" viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.4H7.6V14h2.7v8z"/></svg>',
  dc:'<svg class="logo" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 4.5c1.6-.7 3.2-1 4-1l.4.8a14 14 0 0 1 3.2 0l.4-.8c.8 0 2.4.3 4 1 2 3 3 6.3 3 10.5-1.2 1.2-3 2-4.7 2.4l-.9-1.4.9-.5-.4-.4a11 11 0 0 1-6 0l-.4.4.9.5-.9 1.4C6 17 4.2 16.2 3 15 3 10.8 4 7.5 6 4.5zM9 10.2a1.7 1.8 0 1 0 0 3.6 1.7 1.8 0 0 0 0-3.6zm6 0a1.7 1.8 0 1 0 0 3.6 1.7 1.8 0 0 0 0-3.6z"/></svg>',
- tt:'<svg class="logo" viewBox="0 0 24 24"><path d="M16.5 2h-3.2v12.6a2.7 2.7 0 1 1-2.7-2.7c.3 0 .6 0 .8.1V8.7a6 6 0 1 0 5.100 5.900V8.400a7.500 7.500 0 0 0 4.300 1.400V6.600A4.400 4.400 0 0 1 16.500 2z"/></svg>'
+ tt:'<svg class="logo" viewBox="0 0 24 24"><path d="M16.5 2h-3.2v12.6a2.7 2.7 0 1 1-2.7-2.7c.3 0 .6 0 .8.1V8.7a6 6 0 1 0 5.1 5.9V8.4a7.5 7.5 0 0 0 4.3 1.4V6.6A4.4 4.4 0 0 1 16.5 2z"/></svg>'
 };
-var list=[
+function $(i){return document.getElementById(i);}
+var lang="en",tw,toast=$("toast");
+function say(t){toast.textContent=t;toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},2200);}
+function esc(s){return String(s).replace(/[<>&"]/g,"");}
+
+/* name + avatar (photo if profile.jpg exists) */
+$("nm").textContent=ME.name;
+$("av").innerHTML='<span id="avt"></span>'+BLOOD;
+$("avt").textContent=ME.name.charAt(0).toUpperCase();
+var im=new Image();im.alt="";
+im.onload=function(){$("avt").textContent="";$("avt").appendChild(im);};
+im.src=ME.photo;
+
+/* app cards */
+var apps=[
  {c:"ig",n:"Instagram",h:ME.instagram,u:"https://www.instagram.com/"+encodeURIComponent(ME.instagram)},
  {c:"tt",n:"TikTok",h:ME.tiktok,u:"https://www.tiktok.com/@"+encodeURIComponent(ME.tiktok)},
  {c:"dc",n:"Discord",h:ME.discord,u:ME.discordId?"https://discord.com/users/"+encodeURIComponent(ME.discordId):"",copy:!ME.discordId}
 ];
-document.getElementById("nm").textContent=ME.name;
-document.getElementById("bio").textContent=ME.bio;
-var av=document.getElementById("av");
-av.textContent=ME.name.charAt(0).toUpperCase();
-var PHOTO="profile.jfif";
-var im=new Image();im.alt="";
-im.onload=function(){av.textContent="";av.appendChild(im);};
-im.src=PHOTO;
-var box=document.getElementById("list"),toast=document.getElementById("toast");
-function say(t){toast.textContent=t;toast.classList.add("on");setTimeout(function(){toast.classList.remove("on");},2200);}
-list.forEach(function(x,i){
+apps.forEach(function(x,i){
   var a=document.createElement("a");
-  a.className="card"+(i%2?" flip":"")+(i>1?" flip2":"");
+  a.className="card acc"+(i%2?" flip":"")+(i>1?" flip2":"");
   a.style.animationDelay=(.3+i*.1)+"s";
   a.href=x.u||"#";
   if(x.u){a.target="_blank";a.rel="noopener noreferrer";}
-  a.innerHTML='<div class="ico">'+ICONS[x.c]+BLOOD+'</div><div class="txt"><b>'+x.n+'</b><span>@'+x.h.replace(/[<>&"]/g,"")+'</span></div><div class="go">›</div>';
+  a.innerHTML='<div class="ico">'+ICONS[x.c]+BLOOD+'</div><div class="txt"><b>'+x.n+'</b><span>@'+esc(x.h)+'</span></div><div class="go">›</div>';
   if(x.copy){a.addEventListener("click",function(e){
     e.preventDefault();
-    try{navigator.clipboard.writeText(x.h).then(function(){say("Discord username copied: "+x.h);},function(){say("My Discord: "+x.h);});}
-    catch(err){say("My Discord: "+x.h);}
+    try{navigator.clipboard.writeText(x.h).then(function(){say(T[lang].dc+x.h);},function(){say(x.h);});}catch(err){say(x.h);}
   });}
-  box.appendChild(a);
+  $("list").appendChild(a);
 });
+
+/* contact */
+var cl=$("contactL");
+if(ME.email){var m=document.createElement("a");m.className="btn";m.href="mailto:"+ME.email;m.textContent="Email";cl.appendChild(m);}
+if(ME.whatsapp){var w=document.createElement("a");w.className="btn";w.href="https://wa.me/"+ME.whatsapp.replace(/\D/g,"");w.target="_blank";w.rel="noopener noreferrer";w.textContent="WhatsApp";cl.appendChild(w);}
+if(!cl.children.length)$("contact").style.display="none";
+
+/* language switcher + typewriter bio */
+function type(el,txt){clearInterval(tw);el.textContent="";var i=0;tw=setInterval(function(){el.textContent=txt.slice(0,++i);if(i>=txt.length)clearInterval(tw);},35);}
+function setLang(l){
+  lang=l;var t=T[l];
+  document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-t]").forEach(function(e){e.textContent=t[e.getAttribute("data-t")];});
+  $("cp").textContent=t.cp;$("qrb").textContent=t.qr;
+  type($("bio"),t.bio);
+  Array.prototype.forEach.call($("lang").children,function(b){b.classList.toggle("on",b.textContent.toLowerCase()===l);});
+  try{localStorage.setItem("lang",l);}catch(e){}
+}
+["en","ar","fr"].forEach(function(l){var b=document.createElement("button");b.textContent=l.toUpperCase();b.onclick=function(){setLang(l);};$("lang").appendChild(b);});
+var saved="en";try{saved=localStorage.getItem("lang")||"en";}catch(e){}
+setLang(T[saved]?saved:"en");
+
+/* copy link + QR */
+$("cp").onclick=function(){try{navigator.clipboard.writeText(location.href).then(function(){say(T[lang].cpd);});}catch(e){say(location.href);}};
+$("qrb").onclick=function(){
+  var q=$("qr");
+  if(!q.firstChild){if(window.QRCode)new QRCode(q,{text:location.href,width:180,height:180});else q.textContent="QR unavailable";}
+  q.classList.toggle("on");
+};
+
+/* red eye follows pointer + red glow */
+var eye=$("eye"),pup=$("pup"),glow=$("glow");
+if(window.matchMedia&&matchMedia("(hover:hover)").matches)glow.style.display="block";
+addEventListener("pointermove",function(e){
+  var r=eye.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  var a=Math.atan2(e.clientY-cy,e.clientX-cx),d=Math.min(10,Math.hypot(e.clientX-cx,e.clientY-cy)/12);
+  pup.style.transform="translate("+Math.cos(a)*d+"px,"+Math.sin(a)*d+"px)";
+  glow.style.transform="translate("+e.clientX+"px,"+e.clientY+"px)";
+},{passive:true});
+
+/* floating red particles */
+var cv=$("fx"),c=cv.getContext("2d"),P=[],k;
+function rs(){cv.width=innerWidth;cv.height=innerHeight;}
+rs();addEventListener("resize",rs);
+for(k=0;k<30;k++)P.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*2+.6,v:Math.random()*.4+.15});
+function tick(){
+  c.clearRect(0,0,cv.width,cv.height);c.fillStyle="rgba(209,10,10,.55)";
+  P.forEach(function(p){p.y-=p.v;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width;}c.beginPath();c.arc(p.x,p.y,p.r,0,6.28);c.fill();});
+  requestAnimationFrame(tick);
+}
+if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))tick();
 </script>
 </body>
 </html>
