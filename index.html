@@ -34,15 +34,11 @@ a.card:active{transform:scale(.98)}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @keyframes drip{from{transform:scaleY(.8)}to{transform:scaleY(1.08)}}
- .bar{height:6px;background:#2b0808;border-radius:99px;margin-top:2rem;cursor:pointer;overflow:hidden}
-.fill{height:100%;width:0;background:var(--red2);box-shadow:0 0 10px var(--red);transition:width .25s linear}
 </style>
 </head>
 <body>
 <main>
   <div class="avatar" id="av">?</div>
-  <div id="bar" class="bar"><div id="fill" class="fill"></div></div>
-<audio id="aud" src="song.mp3" loop preload="auto"></audio>
   <h1 id="nm"></h1>
   <p class="bio" id="bio"></p>
   <div class="list" id="list"></div>
@@ -97,13 +93,6 @@ list.forEach(function(x,i){
   });}
   box.appendChild(a);
 });
- var aud=document.getElementById("aud"),fill=document.getElementById("fill"),bar=document.getElementById("bar");
-var evs=["pointerdown","click","touchstart","keydown"];
-function go(){aud.play().then(function(){evs.forEach(function(e){removeEventListener(e,go);});}).catch(function(){});}
-function arm(){evs.forEach(function(e){addEventListener(e,go,{passive:true});});}
-aud.play().catch(arm);
-aud.addEventListener("timeupdate",function(){if(aud.duration)fill.style.width=(aud.currentTime/aud.duration*100)+"%";});
-bar.addEventListener("click",function(e){var r=bar.getBoundingClientRect();if(aud.duration)aud.currentTime=(e.clientX-r.left)/r.width*aud.duration;});
 </script>
 </body>
 </html>
